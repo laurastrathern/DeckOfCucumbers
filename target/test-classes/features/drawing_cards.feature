@@ -19,6 +19,7 @@ Feature: Drawing Cards
       | 1     | excluded | 10          | 42              |
       | 2     | included | 10          | 98              |
       | 4     | excluded | 10          | 198             |
+
 #
 #  Scenario Outline:
 #    Given There are <Drinks> hot chocolates and <Customers> customers

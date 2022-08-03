@@ -15,7 +15,7 @@ public class DrawingCardsStepDefinitions {
 
     @Given("^there are (\\d+) decks of cards with jokers (.*)")
     public void there_are_decks_of_cards_with_jokers(Integer decks, String jokers) {
-        boolean jokersEnabled = jokers=="included";
+        boolean jokersEnabled = jokers.equalsIgnoreCase("included");
         deckModel = new CardDeckModel();
         deck = new CardDeck();
         deckModel = deck.createCardDeck(decks, jokersEnabled);
@@ -23,19 +23,15 @@ public class DrawingCardsStepDefinitions {
 
     @When("{int} cards are drawn")
     public void cards_are_drawn(Integer drawCount) {
-        deckModel = deck.drawFromDeck(drawCount);
-    }
-
-    @Then("the deck will have {int} cards remaining")
-    public void the_deck_will_have_cards_remaining(Integer remainingCards) {
-        assertThat(deck.getNumberOfCardsRemaining()).isEqualTo(remainingCards);
+        deckModel = deck.drawFromDeck(drawCount, deckModel);
     }
 
     @Then("the deck will have {int} cards remaining.")
-    public void the_deck_will_have_cards_remaining(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void the_deck_will_have_cards_remaining(Integer remainingCards) {
+        assertThat(deckModel.getNumberOfCardsRemaining()).isEqualTo(remainingCards);
     }
+
+
 //
 //    private int remainingDrinks;
 //    @Given("There are {int} hot chocolates and {int} customers")
