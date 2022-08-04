@@ -23,12 +23,16 @@ public class CardDeckModel {
     @JsonProperty("error")
     public String errorMessage;
 
+    public List<PlayingCard> getDrawnCards() {
+        return drawnCards;
+    }
+
     @JsonProperty("cards")
     List<PlayingCard> drawnCards = new ArrayList<>();
 
     public CardPiles piles;
 
-    public List drawnCardsCodeList = new ArrayList();
+
     public String cardsForMyHand;
     public String cardsForDiscard;
 
@@ -55,4 +59,5 @@ public class CardDeckModel {
     public boolean isSuccessful() {
         return success;
     }
+
 }

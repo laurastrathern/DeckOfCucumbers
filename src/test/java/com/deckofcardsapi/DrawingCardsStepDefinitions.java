@@ -1,6 +1,7 @@
 package com.deckofcardsapi;
 
 import com.deckofcardsapi.model.CardDeckModel;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -13,6 +14,7 @@ public class DrawingCardsStepDefinitions {
 
     private CardDeck deck;
 
+
     @Given("^there are (\\d+) decks of cards with jokers (.*)")
     public void there_are_decks_of_cards_with_jokers(Integer decks, String jokers) {
         boolean jokersEnabled = jokers.equalsIgnoreCase("included");
@@ -24,6 +26,7 @@ public class DrawingCardsStepDefinitions {
     @When("{int} cards are drawn")
     public void cards_are_drawn(Integer drawCount) {
         deckModel = deck.drawFromDeck(drawCount, deckModel);
+        deck.setDrawnCardsCodeList(deck.getCardCodeList(deckModel));
     }
 
     @Then("the deck will have {int} cards remaining.")
@@ -31,19 +34,14 @@ public class DrawingCardsStepDefinitions {
         assertThat(deckModel.getNumberOfCardsRemaining()).isEqualTo(remainingCards);
     }
 
+    @When("{int} of the drawn cards are placed in my hand")
+    public void of_the_drawn_cards_are_placed_in_my_hand(Integer cards){
+        deckModel = deck.createPileFromDrawnCards(cards, deckModel);
+    }
 
-//
-//    private int remainingDrinks;
-//    @Given("There are {int} hot chocolates and {int} customers")
-//    public void there_are_hot_chocolates_and_customers(Integer drinks, Integer customers) {
-//        remainingDrinks = drinks;
-//    }
-//    @When("^Laura orders (\\d+) hot chocolate")
-//    public void laura_orders_hot_chocolate(Integer drinks) {
-//        remainingDrinks = remainingDrinks - drinks;
-//    }
-//    @Then("there are {int} hot chocolates left.")
-//    public void there_are_hot_chocolates_left(Integer drinksLeftOver) {
-//        assertThat(remainingDrinks).isEqualTo(drinksLeftOver);
-//    }
+    @Then("my hand will have {int} cards in it.")
+    public void my_hand_will_have_remaining_cards_in_it(Integer cards) {
+        assertThat(deckModel.piles.myHand.noOfCardsInPile).isEqualTo(cards);
+    }
+
 }
